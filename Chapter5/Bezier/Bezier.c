@@ -22,7 +22,7 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance,
      wndclass.hInstance     = hInstance ;
      wndclass.hIcon         = LoadIcon (NULL, IDI_APPLICATION) ;
      wndclass.hCursor       = LoadCursor (NULL, IDC_ARROW) ;
-     wndclass.hbrBackground = (HBRUSH) GetStockObject (WHITE_BRUSH) ;
+     wndclass.hbrBackground = (HBRUSH) GetStockObject (BLACK_BRUSH) ;
      wndclass.lpszMenuName  = NULL ;
      wndclass.lpszClassName = szAppName ;
      
@@ -95,7 +95,8 @@ LRESULT CALLBACK WndProc (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
           {
                hdc = GetDC (hwnd) ;
                
-               SelectObject (hdc, GetStockObject (WHITE_PEN)) ;
+               //SelectObject (hdc, CreatePen(BS_SOLID,0,RGB(0,255,0))) ;  //Uncomment to have fun 
+               SelectObject (hdc, GetStockObject(BLACK_BRUSH));
                DrawBezier (hdc, apt) ;
                
                if (wParam & MK_LBUTTON)
@@ -110,7 +111,7 @@ LRESULT CALLBACK WndProc (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
                     apt[2].y = HIWORD (lParam) ;
                }
                
-               SelectObject (hdc, GetStockObject (BLACK_PEN)) ;
+               SelectObject (hdc, GetStockObject (WHITE_PEN)) ;
                DrawBezier (hdc, apt) ;
                ReleaseDC (hwnd, hdc) ;
           }
@@ -121,6 +122,7 @@ LRESULT CALLBACK WndProc (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
           
           hdc = BeginPaint (hwnd, &ps) ;
           
+          SelectObject (hdc, GetStockObject (WHITE_PEN)) ;
           DrawBezier (hdc, apt) ;
           
           EndPaint (hwnd, &ps) ;

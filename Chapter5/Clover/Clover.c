@@ -25,7 +25,7 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance,
      wndclass.hInstance     = hInstance ;
      wndclass.hIcon         = LoadIcon (NULL, IDI_APPLICATION) ;
      wndclass.hCursor       = LoadCursor (NULL, IDC_ARROW) ;
-     wndclass.hbrBackground = (HBRUSH) GetStockObject (WHITE_BRUSH) ;
+     wndclass.hbrBackground = (HBRUSH) GetStockObject (BLACK_BRUSH) ;
      wndclass.lpszMenuName  = NULL ;
      wndclass.lpszClassName = szAppName ;
      
@@ -63,6 +63,7 @@ LRESULT CALLBACK WndProc (HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
      HRGN        hRgnTemp[6] ;
      int         i ;
      PAINTSTRUCT ps ;
+     HPEN        hPen ;
      
      switch (iMsg)
      {
@@ -109,10 +110,13 @@ LRESULT CALLBACK WndProc (HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
           
           for (fAngle = 0.0 ; fAngle < TWO_PI ; fAngle += TWO_PI / 360)
           {
+               hPen = GetStockObject(WHITE_PEN);
+               SelectObject(hdc,hPen);
                MoveToEx (hdc, 0, 0, NULL) ;
                LineTo (hdc, (int) ( fRadius * cos (fAngle) + 0.5),
                             (int) (-fRadius * sin (fAngle) + 0.5)) ;
           }
+          DeleteObject(hPen);
           EndPaint (hwnd, &ps) ;
           return 0 ;
           
