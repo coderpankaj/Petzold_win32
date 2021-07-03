@@ -14,6 +14,7 @@ struct
 }
 devcaps [] =
 {
+     0,             TEXT("Macro's"),       TEXT("Description"),
      HORZSIZE,      TEXT ("HORZSIZE"),     TEXT ("Width in millimeters:"),
      VERTSIZE,      TEXT ("VERTSIZE"),     TEXT ("Height in millimeters:"),
      HORZRES,       TEXT ("HORZRES"),      TEXT ("Width in pixels:"),
@@ -53,7 +54,7 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance,
      wndclass.hInstance     = hInstance ;
      wndclass.hIcon         = LoadIcon (NULL, IDI_APPLICATION) ;
      wndclass.hCursor       = LoadCursor (NULL, IDC_ARROW) ;
-     wndclass.hbrBackground = (HBRUSH) GetStockObject (WHITE_BRUSH) ;
+     wndclass.hbrBackground = (HBRUSH) GetStockObject (BLACK_BRUSH) ;
      wndclass.lpszMenuName  = NULL ;
      wndclass.lpszClassName = szAppName ;
      
@@ -105,9 +106,18 @@ LRESULT CALLBACK WndProc (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
           
      case WM_PAINT:
           hdc = BeginPaint (hwnd, &ps) ;
+          SetBkColor(hdc,BLACK_BRUSH);                                     // Setting text background as black
+          if(CLR_INVALID == SetTextColor(hdc, RGB(255,255,255)))           // Making text color white
+          {
+               SetBkColor(hdc, WHITE_BRUSH);
+          }
           
           for (i = 0 ; i < NUMLINES ; i++)
           {
+               if(devcaps[i].iIndex == 0)
+               {
+                    SetTextColor(hdc, RGB(0,255,0));                       // Changing color to green for heading line
+               }
                TextOut (hdc, 0, cyChar * i,
                         devcaps[i].szLabel,
                         lstrlen (devcaps[i].szLabel)) ;
@@ -118,9 +128,17 @@ LRESULT CALLBACK WndProc (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
                
                SetTextAlign (hdc, TA_RIGHT | TA_TOP) ;                     // Align the text line from textout to right
                
-               TextOut (hdc, 14 * cxCaps + 35 * cxChar, cyChar * i, szBuffer,
-                        wsprintf (szBuffer, TEXT ("%5d"),
+               if(devcaps[i].iIndex == 0)
+               {
+                    TextOut (hdc, 14 * cxCaps + 35 * cxChar, cyChar * i, TEXT("Value"), 5) ;   // Printing 1st line
+                    SetTextColor(hdc, RGB(255,255,255)) ;                                      // Reverting color to white
+               }
+               else
+               {
+                    TextOut (hdc, 14 * cxCaps + 35 * cxChar, cyChar * i, szBuffer,
+                             wsprintf (szBuffer, TEXT ("%5d"),
                              GetDeviceCaps (hdc, devcaps[i].iIndex))) ;    // Get Device Capabilities
+               }
                
                SetTextAlign (hdc, TA_LEFT | TA_TOP) ;                      // Align the text line from textout to left
           }

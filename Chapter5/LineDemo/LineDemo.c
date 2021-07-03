@@ -22,7 +22,7 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance,
      wndclass.hInstance     = hInstance ;
      wndclass.hIcon         = LoadIcon (NULL, IDI_APPLICATION) ;
      wndclass.hCursor       = LoadCursor (NULL, IDC_ARROW) ;
-     wndclass.hbrBackground = (HBRUSH) GetStockObject (WHITE_BRUSH) ;
+     wndclass.hbrBackground = (HBRUSH) GetStockObject (BLACK_BRUSH) ;
      wndclass.lpszMenuName  = NULL ;
      wndclass.lpszClassName = szAppName ;
      
@@ -66,21 +66,24 @@ LRESULT CALLBACK WndProc (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
      case WM_PAINT:
           hdc = BeginPaint (hwnd, &ps) ;
           
+          SelectObject (hdc, GetStockObject (WHITE_PEN)) ;            // Makes border of all figures white
+          SelectObject (hdc, GetStockObject (BLACK_BRUSH)) ;          // Fills diagrams with Black color
+
           Rectangle (hdc,     cxClient / 8,     cyClient / 8,
-                          7 * cxClient / 8, 7 * cyClient / 8) ;       // Non filling function
+                          7 * cxClient / 8, 7 * cyClient / 8) ;       
           
           MoveToEx  (hdc,        0,        0, NULL) ;
-          LineTo    (hdc, cxClient, cyClient) ;                       // Non filling function
-          
-          MoveToEx  (hdc,        0, cyClient, NULL) ;
-          LineTo    (hdc, cxClient,        0) ;                       // Non filling function
+          LineTo    (hdc, cxClient, cyClient) ;                       
           
           Ellipse   (hdc,     cxClient / 8,     cyClient / 8,
-                          7 * cxClient / 8, 7 * cyClient / 8) ;       // Filling function
+                          7 * cxClient / 8, 7 * cyClient / 8) ;       
           
           RoundRect (hdc,     cxClient / 4,     cyClient / 4,
                           3 * cxClient / 4, 3 * cyClient / 4,
-                              cxClient / 4,     cyClient / 4) ;       // Filling function
+                              cxClient / 4,     cyClient / 4) ;       
+
+          MoveToEx  (hdc,        0, cyClient, NULL) ;
+          LineTo    (hdc, cxClient,        0) ;                       
           
           EndPaint (hwnd, &ps) ;
           return 0 ;

@@ -15,14 +15,14 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance,
      MSG          msg ;
      WNDCLASS     wndclass ;
      
-     wndclass.style         = CS_HREDRAW | CS_VREDRAW;
+     wndclass.style         = CS_HREDRAW | CS_VREDRAW ;
      wndclass.lpfnWndProc   = WndProc ;
      wndclass.cbClsExtra    = 0 ;
      wndclass.cbWndExtra    = 0 ;
      wndclass.hInstance     = hInstance ;
      wndclass.hIcon         = LoadIcon (NULL, IDI_APPLICATION) ;
      wndclass.hCursor       = LoadCursor (NULL, IDC_ARROW) ;
-     wndclass.hbrBackground = (HBRUSH) GetStockObject (WHITE_BRUSH) ;
+     wndclass.hbrBackground = (HBRUSH) GetStockObject (BLACK_BRUSH) ;
      wndclass.lpszMenuName  = NULL ;
      wndclass.lpszClassName = szAppName ;
      
@@ -96,7 +96,12 @@ LRESULT CALLBACK WndProc (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
      case WM_PAINT:
           hdc = BeginPaint (hwnd, &ps) ;
           SelectObject (hdc, GetStockObject (SYSTEM_FIXED_FONT)) ;
-          
+          if(CLR_INVALID == SetTextColor(hdc, RGB(255,255,255)))           // Making text color white
+          {
+               SetBkColor(hdc, WHITE_BRUSH);
+          }
+          SetBkColor(hdc, RGB(0,0,0));                                     // Setting text background black
+
           SetMapMode (hdc, MM_ANISOTROPIC) ;
           SetWindowExtEx (hdc, 1, 1, NULL) ;
           SetViewportExtEx (hdc, cxChar, cyChar, NULL) ;

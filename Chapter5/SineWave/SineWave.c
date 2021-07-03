@@ -26,7 +26,7 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance,
      wndclass.hInstance     = hInstance ;
      wndclass.hIcon         = LoadIcon (NULL, IDI_APPLICATION) ;
      wndclass.hCursor       = LoadCursor (NULL, IDC_ARROW) ;
-     wndclass.hbrBackground = (HBRUSH) GetStockObject (WHITE_BRUSH) ;
+     wndclass.hbrBackground = (HBRUSH) GetStockObject (BLACK_BRUSH) ;
      wndclass.lpszMenuName  = NULL ;
      wndclass.lpszClassName = szAppName ;
           
@@ -72,8 +72,9 @@ LRESULT CALLBACK WndProc (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
      case WM_PAINT:
           hdc = BeginPaint (hwnd, &ps) ;
           
+          SelectObject(hdc,CreatePen(BS_SOLID,0,RGB(0,255,0)));  // Making lines Green
           MoveToEx (hdc, 0,        cyClient / 2, NULL) ;
-          LineTo   (hdc, cxClient, cyClient / 2) ;          // Draws Horizontal line across client area
+          LineTo   (hdc, cxClient, cyClient / 2) ;               // Draws Horizontal line across client area
           
           for (i = 0 ; i < NUM ; i++)
           {

@@ -22,7 +22,7 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance,
      wndclass.hInstance     = hInstance ;
      wndclass.hIcon         = LoadIcon (NULL, IDI_APPLICATION) ;
      wndclass.hCursor       = LoadCursor (NULL, IDC_ARROW) ;
-     wndclass.hbrBackground = (HBRUSH) GetStockObject (WHITE_BRUSH) ;
+     wndclass.hbrBackground = (HBRUSH) GetStockObject (BLACK_BRUSH) ; // Converting to Dark mode
      wndclass.lpszMenuName  = NULL ;
      wndclass.lpszClassName = szAppName ;
      
