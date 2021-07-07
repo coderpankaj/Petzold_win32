@@ -1,6 +1,6 @@
 /*--------------------------------------------------------
    KEYVIEW1.C -- Displays Keyboard and Character Messages
-                 (c) Charles Petzold, 1998
+                 Pankaj Patil, 2021
   --------------------------------------------------------*/
 
 #include <windows.h>
