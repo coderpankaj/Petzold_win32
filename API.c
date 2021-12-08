@@ -2,8 +2,9 @@
 
 int main()
 {
+    #define GCL_HBRBACKGROUND   (-10)
     HINSTANCE hInstance;HMENU hMenu;UINT  uIDEnableItem; UINT  uEnable;
-    HWND hwnd; HDC hdc; RECT rect; BOOL bul; int int1;
+    HWND hwnd; HDC hdc; RECT rect; BOOL bul; int int1; MSG msg; void func();
     WNDPROC AboutDlgProc; HBRUSH hBrush; COLORREF crColor; TCHAR szText[20];
 
     /* EnableMenuItem: Enables, disables, or grays the specified menu item. */
@@ -78,6 +79,30 @@ int main()
        at the specified offset into the extra window memory. */
     GetWindowLong (hwnd, GWL_ID);
 
-    
+    /* Creates a modeless dialog box from a dialog box template resource. The CreateDialog macro uses the 
+       CreateDialogParam function. */
+    CreateDialog (hInstance, TEXT ("ColorScrDlg"), hwnd, func) ;
+
+    /* Determines whether a message is intended for the specified dialog box and, if it is, processes the message. */
+    IsDialogMessage (hwnd, &msg);
+
+    /* The SetScrollRange function sets the minimum and maximum scroll box positions for the specified scroll bar. */
+    SetScrollRange (hwnd, SB_CTL, 0, 255, FALSE) ;
+
+    /* The SetScrollPos function sets the position of the scroll box (thumb) in the specified scroll bar and, 
+       if requested, redraws the scroll bar to reflect the new position of the scroll box. */
+    SetScrollPos   (hwnd, SB_CTL, 0, FALSE) ;
+
+    /* Sets the text of a control in a dialog box to the string representation of a specified integer value. */
+    SetDlgItemInt (hwnd,  int1 + 3, int1, FALSE) ;
+
+    /* Retrieves a handle to the specified window's parent or owner.
+        To retrieve a handle to a specified ancestor, use the GetAncestor function. */
+    GetParent (hwnd) ;
+
+    /* Replaces the specified 32-bit (long) value at the specified offset into the extra class memory or 
+        the WNDCLASSEX structure for the class to which the specified window belongs. */
+    SetClassLong (hwnd, GCL_HBRBACKGROUND, (LONG) CreateSolidBrush ( RGB (int1,int1,int1)));
+
     return TRUE;
 }
