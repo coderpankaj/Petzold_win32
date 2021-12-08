@@ -4,7 +4,7 @@ int main()
 {
     HINSTANCE hInstance;HMENU hMenu;UINT  uIDEnableItem; UINT  uEnable;
     HWND hwnd; HDC hdc; RECT rect; BOOL bul; int int1;
-    WNDPROC AboutDlgProc; HBRUSH hBrush; COLORREF crColor;
+    WNDPROC AboutDlgProc; HBRUSH hBrush; COLORREF crColor; TCHAR szText[20];
 
     /* EnableMenuItem: Enables, disables, or grays the specified menu item. */
     EnableMenuItem(hMenu, uIDEnableItem, uEnable);
@@ -60,5 +60,24 @@ int main()
 
     /* EndDialog : Destroys a modal dialog box, causing the system to end any processing for the dialog box.*/
     EndDialog (hwnd, TRUE) ;
+
+    /* GetWindowText : Copies the text of the specified window's title bar (if it has one) into a buffer.*/
+    GetWindowText (hwnd, szText, sizeof (szText)) ;
+
+    /* The SetBkColor function sets the current background color to the specified color value */
+    SetBkColor (hdc, GetSysColor (COLOR_WINDOW)) ;
+
+    /* The SetTextColor function sets the text color for the specified device context to the specified color. */
+    SetTextColor (hdc, GetSysColor (COLOR_WINDOWTEXT)) ;
+
+    /* The DrawText function draws formatted text in the specified rectangle. It formats the text according to 
+       the specified method (expanding tabs, justifying characters, breaking lines, and so forth). */
+    DrawText (hdc, szText, -1, &rect, DT_SINGLELINE | DT_CENTER | DT_VCENTER) ;
+
+    /* Retrieves information about the specified window. The function also retrieves the 32-bit (DWORD) value 
+       at the specified offset into the extra window memory. */
+    GetWindowLong (hwnd, GWL_ID);
+
+    
     return TRUE;
 }
