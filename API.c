@@ -191,6 +191,10 @@ int main()
         and text color), and a script (or character set). */
     CHOOSEFONT cf ;
     ChooseFont (&cf) ;
-    
+
+    /* Creates a Color dialog box that enables the user to select a color. */
+    static CHOOSECOLOR cc ;
+    ChooseColor (&cc) ;
+
     return TRUE;
 }
