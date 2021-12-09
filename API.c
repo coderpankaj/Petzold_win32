@@ -3,7 +3,7 @@
 int main()
 {
     #define GCL_HBRBACKGROUND   (-10)
-    HINSTANCE hInstance;HMENU hMenu;UINT  uIDEnableItem; UINT  uEnable;
+    HINSTANCE hInstance;HMENU hMenu;UINT  uIDEnableItem; UINT  uEnable; static LOGFONT logfont ;
     HWND hwnd; HDC hdc; RECT rect; BOOL bul; int int1; MSG msg; void func();
     WNDPROC AboutDlgProc; HBRUSH hBrush; COLORREF crColor; TCHAR szText[20];
 
@@ -121,6 +121,76 @@ int main()
         an entry in the registry. */
     MessageBeep (0) ;
 
+    /* TranslateAccelerator : Processes accelerator keys for menu commands. */
+    TranslateAccelerator (hwnd, hwnd, &msg);
+
+    /* Loads the specified accelerator table. */
+    LoadAccelerators (hInstance, szText) ;
+
+    /* wsprintf : Writes formatted data to the specified buffer. */
+    wsprintf (szText, TEXT ("%s - %s"), szText, szText) ;
+    
+    /* SetWindowText : Changes the text of the specified window's title bar (if it has one). */
+    SetWindowText (hwnd, szText) ;
+
+    /* SendMessage : Sends the specified message to a window or windows. */
+    SendMessage (hwnd, WM_COMMAND, NULL, 0);
+
+    /* MessageBox : Displays a modal dialog box that contains a system icon, a set of buttons, and a brief 
+        application-specific message, */
+    MessageBox (hwnd, szText, szText, MB_YESNOCANCEL | MB_ICONQUESTION) ;
+
+    /* The GetObject function retrieves information for the specified graphics object. */
+    GetObject (GetStockObject (SYSTEM_FONT), sizeof (LOGFONT), (PTSTR) &logfont) ;
+
+    /* The CreateFontIndirect function creates a logical font that has the specified characteristics. 
+        The font can subsequently be selected as the current font for any device context. */
+    CreateFontIndirect (&logfont) ;
+
+    /* SetFocus : Sets the keyboard focus to the specified window. The window must be attached to 
+        the calling thread's message queue. */
+    SetFocus (hwnd) ;
+
+    /* MoveWindow : Changes the position and dimensions of the specified window.  */
+    MoveWindow (hwnd, 0, 0, LOWORD (NULL), HIWORD (NULL), TRUE) ;
+
+    /* IsClipboardFormatAvailable : Determines whether the clipboard contains data in the specified format. */
+    IsClipboardFormatAvailable (CF_TEXT);
+
+    /* GetOpenFileName : Creates an Open dialog box that lets the user specify the drive, directory, and 
+        the name of a file or set of files to be opened. */
+    static OPENFILENAME ofn ;
+    GetOpenFileName (&ofn);
+
+    /* GetSaveFileName : Creates a Save dialog box that lets the user specify the drive, directory, and 
+        name of a file to save. */
+    GetSaveFileName (&ofn) ;
+
+    /* IsTextUnicode : Determines if a buffer is likely to contain a form of Unicode text. */
+    IsTextUnicode (szText, int1, &szText);
+
+    /* WideCharToMultiByte : Maps a UTF-16 (wide character) string to a new character string. */
+    WideCharToMultiByte (CP_ACP, 0, (PWSTR) szText, -1, szText, int1 + 2, NULL, NULL) ;
+
+    /* lstrcpy : Copies a string to a buffer. */
+    lstrcpy ((PTSTR) szText, (PTSTR) szText) ;
+
+    /* MultiByteToWideChar : Maps a character string to a UTF-16 (wide character) string. 
+        The character string is not necessarily from a multibyte character set. */
+    MultiByteToWideChar (CP_ACP, 0, szText, -1, (PTSTR) szText, int1 + 1) ;
+
+    /* WriteFile : Writes data to the specified file or input/output (I/O) device. */
+    WriteFile (hwnd, szText, int1 * sizeof (TCHAR), &szText, NULL) ;
+
+    /* GetWindowTextLength : Retrieves the length, in characters, of the specified window's title bar text 
+        (if the window has a title bar). */
+    GetWindowTextLength (hwnd) ;
+
+    /* ChooseFont : Creates a Font dialog box that enables the user to choose attributes for a logical font. 
+        These attributes include a font family and associated font style, a point size, effects (underline, strikeout, 
+        and text color), and a script (or character set). */
+    CHOOSEFONT cf ;
+    ChooseFont (&cf) ;
     
     return TRUE;
 }
