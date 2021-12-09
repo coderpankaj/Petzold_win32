@@ -104,5 +104,23 @@ int main()
         the WNDCLASSEX structure for the class to which the specified window belongs. */
     SetClassLong (hwnd, GCL_HBRBACKGROUND, (LONG) CreateSolidBrush ( RGB (int1,int1,int1)));
 
+    /* SetDlgItemText : Sets the title or text of a control in a dialog box. */
+    SetDlgItemText (hwnd, VK_ESCAPE, szText) ;
+
+    /* CharUpper : Converts a character string or a single character to uppercase. 
+        If the operand is a character string, the function converts the characters in place. */
+    CharUpper ((TCHAR *) szText);
+
+    /* isxdigit : Check if character is hexadecimal digit */
+    isxdigit (LOWORD (szText));
+
+    /* isdigit : Check if character is decimal digit */
+    isdigit (szText);
+
+    /* MessageBeep : Plays a waveform sound. The waveform sound for each sound type is identified by 
+        an entry in the registry. */
+    MessageBeep (0) ;
+
+    
     return TRUE;
 }
